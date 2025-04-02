@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localizador e Comparador</title>
+    <link rel="stylesheet" href="/menuLateral.css">
+
+</head>
+<!--
+<style>
+    /* Reset básico */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+        display: flex;
+        /* Flexbox para estruturar menu lateral e conteúdo */
+        height: 100vh;
+        /* Altura total da tela */
+    }
+
+    h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        color: #3498db;
+        margin-bottom: 10px;
+    }
+
+    form {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    }
+
+    button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    #result,
+    #comparisonResult {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        margin-top: 15px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    #result {
+        color: #2c3e50;
+    }
+
+    #comparisonResult {
+        color: #198754;
+        /* Verde para resultados de comparação */
+    }
+
+    @media (max-width: 768px) {
+        body {
+            flex-direction: column;
+        }
+
+        .conteudo {
+            margin-left: 0;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+</style>
+-->
+
+<body>
+    <!-- Menu Lateral -->
+    <div class="menu-lateral">
+        <h2>Menu</h2>
+        <a href="/PaginaInicial.html">Início</a>
+        <a href="/easyCrq-main/index.html">Leitor de CRQ</a>
+        <a href="/GeraComunicado.html">Gerador de Comunicado</a>
+        <a href="/GeraOverdue.html">Gerador de Overdue</a>
+        <a href="/relatorioOverdue/index.html">Relatorio de Overdue</a>
+        <a href="/LocalizadorJobRelatorio.html">Localiza Jobs no relatório</a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="conteudo">
+        <h1>Localizador e Comparador de Nomes</h1>
+
+        <h2 id="localizador">1. Localizar Nome no Relatório</h2>
+        <form id="locatorForm">
+            <label for="itemName">Nome do item (Ex: GEABUS009):</label>
+            <input type="text" id="itemName" name="itemName" required>
+
+            <label for="totalPages">Total de páginas do relatório:</label>
+            <input type="number" id="totalPages" name="totalPages" required>
+
+            <button type="button" onclick="findItemPage()">Localizar</button>
+        </form>
+
+        <h2 id="result"></h2>
+
+        <h2 id="comparador">2. Comparar Nomes em Ordem Alfabética</h2>
+        <form id="comparatorForm">
+            <label for="name1">Nome 1:</label>
+            <input type="text" id="name1" name="name1" required>
+
+            <label for="name2">Nome 2:</label>
+            <input type="text" id="name2" name="name2" required>
+
+            <button type="button" onclick="compareNames()">Comparar</button>
+        </form>
+
+        <h2 id="comparisonResult"></h2>
+    </div>
+
+    <script>
+        function findItemPage() {
+            const itemName = document.getElementById('itemName').value.trim().toUpperCase();
+            const totalPages = parseInt(document.getElementById('totalPages').value);
+
+            if (!itemName || isNaN(totalPages) || totalPages <= 0) {
+                document.getElementById('result').textContent = "Por favor, insira valores válidos.";
+                return;
+            }
+
+            const firstLetter = itemName[0];
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const letterIndex = alphabet.indexOf(firstLetter);
+
+            if (letterIndex === -1) {
+                document.getElementById('result').textContent = "O nome deve começar com uma letra do alfabeto.";
+                return;
+            }
+
+            const pagesPerLetter = totalPages / alphabet.length;
+            const startPage = Math.floor(letterIndex * pagesPerLetter) + 1;
+            const endPage = Math.floor((letterIndex + 1) * pagesPerLetter);
+
+            document.getElementById('result').textContent =
+                `O nome "${itemName}" está provavelmente entre as páginas ${startPage} e ${endPage}.`;
+        }
+
+        function compareNames() {
+            const name1 = document.getElementById('name1').value.trim().toUpperCase();
+            const name2 = document.getElementById('name2').value.trim().toUpperCase();
+
+            if (!name1 || !name2) {
+                document.getElementById('comparisonResult').textContent = "Por favor, insira os dois nomes.";
+                return;
+            }
+
+            if (name1 < name2) {
+                document.getElementById('comparisonResult').textContent = `"${name1}" vem antes de "${name2}" em ordem alfabética.`;
+            } else if (name1 > name2) {
+                document.getElementById('comparisonResult').textContent = `"${name2}" vem antes de "${name1}" em ordem alfabética.`;
+            } else {
+                document.getElementById('comparisonResult').textContent = `"${name1}" e "${name2}" são iguais.`;
+            }
+        }
+    </script>
+</body>
+
+</html>

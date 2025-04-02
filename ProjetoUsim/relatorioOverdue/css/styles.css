@@ -1,0 +1,133 @@
+
+/* Container principal ajustado ao layout flexível */
+.container {
+    max-width: 1200px;
+    margin: 20px auto; /* Margem vertical igual ao .conteudo */
+    padding: 30px; /* Padding aumentado para combinar */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    flex: 1; /* Adaptação ao layout flex */
+}
+
+/* Controles alinhados ao estilo dos botões */
+.controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px; /* Espaçamento entre elementos */
+    flex-wrap: wrap; /* Responsividade */
+}
+
+/* Mensagem de erro estilizada */
+.error {
+    color: #dc3545;
+    padding: 12px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px; /* Borda arredondada igual a textarea */
+    margin: 15px 0;
+}
+
+/* Container de progresso integrado ao design */
+.progress-container {
+    width: 100%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin: 20px 0;
+}
+
+/* Barra de progresso atualizada */
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background-color: #4CAF50; /* Cor alinhada aos botões */
+    transition: width 0.3s ease-in-out;
+}
+
+/* Estado de loading consistente */
+.loading {
+    cursor: wait;
+    opacity: 0.7;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Gráfico integrado ao layout */
+.chart-wrapper {
+    flex: 1;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px; /* Igual ao .conteudo */
+    margin: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra consistente */
+    overflow-y: auto;
+    height: auto; /* Altura flexível */
+    min-height: 400px; /* Altura mínima */
+}
+
+/* Canvas responsivo */
+.chart-container canvas {
+    margin: 15px 0;
+    max-width: 100%;
+    height: auto !important;
+}
+
+/* Debug container estilizado */
+.debug-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    font-family: monospace; /* Igual à textarea */
+}
+
+/* Botões adicionados para consistência */
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Responsividade integrada */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .controls {
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .chart-wrapper {
+        margin: 10px;
+        padding: 15px;
+        min-height: 300px;
+    }
+    
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

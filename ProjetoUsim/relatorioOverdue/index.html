@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Análise de Jobs</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/menuLateral.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="menu-lateral">
+        <h2>Menu</h2>
+        <a href="/PaginaInicial.html">Início</a>
+        <a href="/easyCrq-main/index.html">Leitor de CRQ</a>
+        <a href="/GeraComunicado.html">Gerador de Comunicado</a>
+        <a href="/GeraOverdue.html">Gerador de Overdue</a>
+        <a href="/relatorioOverdue/index.html">Relatorio de Overdue</a>
+        <a href="/LocalizadorJobRelatorio.html">Localiza Jobs no relatório</a>
+    </div>
+
+    <div class="container">
+        <div class="controls">
+            <input type="file" id="fileInput" multiple accept=".xlsx,.xls" />
+            <button id="processButton">Processar</button>
+            <button id="clearButton">Limpar Gráficos</button>
+        </div>
+        <div id="debugInfo" class="debug-container">
+            <h3>Informações de Debug</h3>
+        </div>
+        <div id="errorLog" class="error"></div>
+        <div class="charts-container">
+            <div class="chart-wrapper">
+                <canvas id="overdueChart"></canvas>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="durationChart"></canvas>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="variationChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Importar o arquivo principal como módulo -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+
+</html>

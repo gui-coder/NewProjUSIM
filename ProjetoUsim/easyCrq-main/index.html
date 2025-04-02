@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Leitor de CRQs - Processamento eficiente de planilhas de mudanças">
+    <meta name="theme-color" content="#0d6efd">
+
+    <title>Leitor de CRQs</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/menuLateral.css">
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <!-- Menu Lateral -->
+    <div class="menu-lateral">
+        <h2>Menu</h2>
+        <a href="/PaginaInicial.html">Início</a>
+        <a href="/easyCrq-main/index.html">Leitor de CRQ</a>
+        <a href="/GeraComunicado.html">Gerador de Comunicado</a>
+        <a href="/GeraOverdue.html">Gerador de Overdue</a>
+        <a href="/relatorioOverdue/index.html">Relatorio de Overdue</a>
+        <a href="/LocalizadorJobRelatorio.html">Localiza Jobs no relatório</a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="conteudo">
+        <!-- Header -->
+        <header class="app-header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+                <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <i class="fas fa-file-excel text-success"></i>
+                        Leitor de CRQs
+                    </a>
+                    <div class="navbar-nav ms-auto">
+                        <button id="themeToggle" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container py-4">
+            <!-- Progress Section -->
+            <div class="progress-section mb-4 d-none" id="progressSection">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span id="progressStatus">Processando...</span>
+                    <span id="progressPercentage">0%</span>
+                </div>
+                <div class="progress" id="progressBar">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <section class="upload-section mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="upload-area p-5" id="dropZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-primary"></i>
+                            <h4 class="mb-3">Arraste os arquivos aqui ou</h4>
+                            <input type="file" id="fileInput" accept=".xlsx" multiple class="d-none"
+                                aria-label="Selecionar arquivos">
+                            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                <i class="fas fa-folder-open me-2"></i>
+                                Selecionar Arquivos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- File List -->
+            <section id="fileList" class="file-list mb-4">
+                <!-- Arquivos serão listados aqui -->
+            </section>
+
+            <!-- Actions -->
+            <section class="actions mb-4 d-none" id="actionButtons">
+                <div class="btn-group">
+                    <button id="exportExcel" class="btn btn-success">
+                        <i class="fas fa-file-excel me-2"></i>
+                        Exportar Excel
+                    </button>
+                    <button id="exportPDF" class="btn btn-danger">
+                        <i class="fas fa-file-pdf me-2"></i>
+                        Exportar PDF
+                    </button>
+                    <button id="clearResults" class="btn btn-secondary">
+                        <i class="fas fa-trash me-2"></i>
+                        Limpar
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results -->
+            <section id="results" class="results-container">
+                <!-- Resultados serão inseridos aqui -->
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer py-3 bg-light">
+            <div class="container text-center">
+                <small class="text-muted">
+                    Desenvolvido por Guilherme Godoy - © 2024
+                </small>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notifications -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <!-- Notificações serão inseridas aqui -->
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

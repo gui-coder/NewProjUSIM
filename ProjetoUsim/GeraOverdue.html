@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/menuLateral.css">
+    <title>Comunicado de Overdue</title>
+</head>
+
+<body>
+    <!-- Layout Principal -->
+    <div class="layout">
+        <!-- Menu Lateral -->
+        <div class="menu-lateral">
+            <h2>Menu</h2>
+            <a href="/PaginaInicial.html">Início</a>
+            <a href="/easyCrq-main/index.html">Leitor de CRQ</a>
+            <a href="/GeraComunicado.html">Gerador de Comunicado</a>
+            <a href="/GeraOverdue.html">Gerador de Overdue</a>
+            <a href="/relatorioOverdue/index.html">Relatorio de Overdue</a>
+            <a href="/LocalizadorJobRelatorio.html">Localiza Jobs no relatório</a>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="conteudo">
+            <h2>Comunicado de Overdue</h2>
+
+            <div>
+                <h3>Entrada:</h3>
+                <textarea id="input" placeholder="Cole os dados dos jobs aqui..."></textarea>
+            </div>
+
+            <div class="button-container">
+                <button onclick="formatData()">Formatar Dados</button>
+                <button class="copy-button" onclick="copyOutput()">Copiar Resultado</button>
+                <span id="copyFeedback" class="copy-feedback">Copiado!</span>
+            </div>
+
+            <div>
+                <h3>Saída:</h3>
+                <textarea id="output" readonly></textarea>
+            </div>
+        </div>
+    </div>
+    <script>
+        function formatSingleJob(jobData) {
+            const lines = jobData.split('\n');
+            const data = {
+                jobName: '',
+                startTime: '',
+                processingTime: ''
+            };
+
+            for (const line of lines) {
+                if (line.trim().startsWith('Job Name')) {
+                    data.jobName = line.split('Job Name')[1].trim();
+                }
+                if (line.trim().startsWith('Start Time')) {
+                    data.startTime = line.split('Start Time')[1].trim();
+                }
+                if (line.includes('Overdue if execution time exceeds')) {
+                    data.processingTime = line.match(/\d+/)[0];
+                }
+            }
+
+            const formattedStartTime = data.startTime.replace('BRT', '- BRT');
+
+            return [
+                `Número do incidente:`,
+                `Descrição da ocorrência: *O JOB ${data.jobName} está em OVERDUE.*`,
+                `Start Time: *${formattedStartTime}*`,
+                `Tempo de processamento (minutos): ${data.processingTime}.`,
+                `Equipe responsável:`
+            ].join('\n');
+        }
+
+        function formatJobData(inputData) {
+            const jobSections = inputData.split('Field Value').filter(section => section.trim());
+            return jobSections.map(jobSection => formatSingleJob(jobSection)).join('\n\n');
+        }
+
+        function formatData() {
+            const input = document.getElementById('input');
+            const output = document.getElementById('output');
+
+            if (!input.value.trim()) {
+                output.value = 'Por favor, insira os dados do job.';
+                return;
+            }
+
+            try {
+                const formattedData = formatJobData(input.value);
+                output.value = formattedData;
+                input.style.color = 'rgba(0, 0, 0, 1)';
+            } catch (error) {
+                output.value = 'Erro ao processar os dados. Verifique se o formato está correto.';
+            }
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('output');
+            const feedback = document.getElementById('copyFeedback');
+
+            if (output.value) {
+                output.select();
+                document.execCommand('copy');
+
+                feedback.style.display = 'inline';
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 2000);
+            }
+        }
+
+        // Exemplo de dados pré-preenchidos
+        /*document.getElementById('input').value = `Field Value
+Application Name GESDSO521 
+Generation Number 70 
+Job Name GEHRUS940_0030 
+Qualifier GESDSO521 
+State EXEC 
+Job ID 01125400 
+Job Type SP 
+Conditions Overdue 
+Status Active Overdue due to late completion. 
+Start Time Qui 7 nov 2024 03:19:02 BRT 
+Agent Name AGT_UIPAPI00_SAP 
+Overdue if execution time exceeds (in minutes) 15 
+Resource dependencies (RS_JOBS_SIMULTANEOS,1) 
+Submission Count 1 
+User Status INC000000122685 
+RFC destination DPR 
+Client 300 
+Job name GESDSO521_0020 
+Release option As soon as possible 
+ABAP Steps ABSTEP(ABAPname=ZSDR_GRAVA_LOG_SCU3,Variant=ZLOG_ITM_CHM_1)`;*/
+    </script>
+</body>
+
+</html>
